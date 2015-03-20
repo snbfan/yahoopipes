@@ -1,7 +1,12 @@
 'use strict';
 angular.module('yahoopipes').service('pipeService', ['$q', '$http', function ($q,$http) {
     
-    // jsonp fetch
+    /**
+     * Does a jsonp fetch
+     * 
+     * @param {string} pipeId
+     * @returns {object} promise
+     */
     function fetch(pipeId) {
     
         var url = 'http://pipes.yahoo.com/pipes/pipe.run?_id=' + pipeId + '&_render=json&_callback=JSON_CALLBACK', deferred = $q.defer();

@@ -1,11 +1,5 @@
 'use strict';
-angular.module('yahoopipes').controller('pipeController', ['$scope', '$http', '$q', 'pipeService', function($scope, $http, $q, pipeService) {
-
-    /**
-     *
-     * @type {string}
-     */
-    $scope.yahoopipes = 'GET PIPES!';
+angular.module('yahoopipes').controller('pipeController', ['$scope', '$http', '$q', 'pipeService', 'localCacheService', function($scope, $http, $q, pipeService, localCacheService) {
 
     /**
      *
@@ -59,21 +53,28 @@ angular.module('yahoopipes').controller('pipeController', ['$scope', '$http', '$
     /**
      * Do a call to yahoo, parses pipes into nice html
      *
-     * @param param1
-     * @param param2
      * @returns {boolean}
      */
     $scope.getPipes = function() {
-        $scope.showSpinner();
-        // fetch pipes
-        pipeService.fetch($scope.pipeId).then(function(items) {
-            // parse result if success
-            $scope.pipes = items;
-            $scope.hideSpinner();
-        }, function(error) {
-            // show error message if failed
-            $scope.showError(error);
-            $scope.hideSpinner();
-        });
+        if (!$scope.pipes) {
+            $scope.showSpinner();
+            // fetch pipes
+            pipeService.fetch($scope.pipeId).then(function(items) {
+                // save it locally
+                localCacheService.setCollection(items);
+                // parse result if success
+                $scope.pipes = items;
+                $scope.hideSpinner();
+            }, function(error) {
+                // show error message if failed
+                $scope.showError(error);
+                $scope.hideSpinner();
+            });
+        }
     };
+    
+    // some initialization before anything happens
+    (function() {
+        $scope.pipes = localCacheService.getCollection();
+    })();
 }]);

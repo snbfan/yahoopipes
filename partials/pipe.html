@@ -1,0 +1,26 @@
+<div ng-controller="pipeItemController" class="container">
+	<div class="clearfix">&nbsp;</div>
+	<div class="row ">
+		<div class="col-lg-12">
+			<div class="text-left">
+				<a class="btn btn-success" role="button" href="#/"><< BACK</a>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">&nbsp;</div>	
+    <div class="row" ng-show="pipe">
+		<div class="media">
+			<div class="media-left media-top">
+				<a href="{{pipe.link}}">
+					<img class="media-object" ng-src="{{pipe['media:group']['media:thumbnail'][1].url}}" alt="{{pipe.title}}"  height="{{pipe['media:group']['media:thumbnail'][1].height}}" width="{{pipe['media:group']['media:thumbnail'][1].width}}">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">{{pipe.title}}</h4>
+				<div><p>{{pipe.description}} >>> <a href="{{pipe.link}}">{{pipe.author.name}}</a></p></div>
+			</div>
+		</div>
+		<br>
+    </div>
+    <div class="row" ng-show="error"><div class="col-lg-6 col-lg-offset-3 bg-danger text-center"><h4>{{error}}</h4></div></div>
+</div>
